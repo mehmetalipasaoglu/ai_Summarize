@@ -10,6 +10,12 @@ const Demo = () => {
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
 
   useEffect(() => {
+    const articlesFromLocalStorage = JSON.parse(
+      localStorage.getItem("articles")
+    );
+    if (articlesFromLocalStorage) {
+      setAllArticles(articlesFromLocalStorage);
+    }
     const fetchSummaries = async () => {
       try {
         const response = await fetch('http://localhost:5000/summaries');
