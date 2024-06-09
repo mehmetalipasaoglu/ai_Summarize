@@ -40,9 +40,8 @@ const Demo = () => {
     );
 
     if (existingArticle) return setArticle(existingArticle);
-
-    try {
       const { data } = await getSummary({ articleUrl: article.url });
+    
       if (data?.summary) {
         const newArticle = { ...article, summary: data.summary };
         const updatedAllArticles = [newArticle, ...allArticles];
@@ -59,9 +58,6 @@ const Demo = () => {
           body: JSON.stringify(newArticle),
         });
       }
-    } catch (err) {
-      console.error('Error submitting summary:', err);
-    }
   };
 
   const handleCopy = (copyUrl) => {
@@ -105,7 +101,7 @@ const Demo = () => {
           </button>
         </form>
         <div className="flex flex-col gap-1 max-h-60 overflow-y-auto">
-          {allArticles.map((item, index) => (
+          {allArticles.reverse().map((item, index) => (
             <div
               key={`link-${index}`}
               onClick={() => setArticle(item)}
@@ -114,7 +110,7 @@ const Demo = () => {
               <div className="copy_btn" onClick={() => handleCopy(item.url)}>
                 <img
                   src={copied === item.url ? tick : copy}
-                  alt="copy_icon"
+                  alt={copied === item.url ? "tick_icon" : "copy_icon"}
                   className="w-[40%] h-[40%] object-contain"
                 />
               </div>
